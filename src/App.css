@@ -1,0 +1,71 @@
+.section1__container{
+    background: #333 url(./assets/img/section1wallpaper.jpg) no-repeat;
+    background-size: cover;
+    object-fit: fill;
+    position: relative;
+    height: fit-content;
+    width: 100%;
+}
+
+.section1__filter {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.4;
+    position: absolute;
+    top: 0px;
+    z-index: 0;
+}
+
+.section1_content{
+    padding-top: 5.5rem;
+    color:white;
+    z-index: 1;
+    position: relative;
+}
+
+.section1_biodata dt{
+    float: left;
+}
+
+.section1_biodata dd{
+    padding-left: 8rem;
+}
+
+.profile-photo{
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    position: relative;
+    top:3.5rem;
+    border-radius: 5px;
+}
+
+.section2__container{
+    border-bottom: 1px solid rgb(220, 220, 200);
+    position: relative;
+    height: fit-content;
+}
+
+/*UTILS*/
+.text-opacity{
+    opacity: 0.7;
+}
+
+.px-6{
+    padding-left: 10em;
+    padding-right: 10em;
+}
+
+
+/*RESPONSIVE*/
+@media screen and (max-width:750px) {
+    .profile-photo{
+        display: none;
+    }
+
+    .px-6{
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+}
