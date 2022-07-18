@@ -17,18 +17,18 @@
     z-index: 0;
 }
 
-.section1_content{
+.section1__content{
     padding-top: 5.5rem;
     color:white;
     z-index: 1;
     position: relative;
 }
 
-.section1_biodata dt{
+.section1__biodata dt{
     float: left;
 }
 
-.section1_biodata dd{
+.section1__biodata dd{
     padding-left: 8rem;
 }
 
@@ -47,9 +47,19 @@
     height: fit-content;
 }
 
+.section3__container{
+    border-bottom: 1px solid rgb(220, 220, 200);
+    position: relative;
+    height: fit-content;
+}
+
 /*UTILS*/
 .text-opacity{
     opacity: 0.7;
+}
+
+.text-primary2{
+    color:var(--primary-clr) 
 }
 
 .px-6{

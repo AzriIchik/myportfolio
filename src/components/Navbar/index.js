@@ -13,6 +13,7 @@ const Navbar = () => {
         container: {
           backgroundColor: "rgba(255, 255, 255, 1)",
           color: "black",
+          boxShadow: "0 2px 10px gray"
         },
         ul: {
           transform: "translateY(0%)",

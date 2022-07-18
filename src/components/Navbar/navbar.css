@@ -2,6 +2,7 @@
 
 .navbar__container {
   background-color: rgb(255, 255, 255, 0);
+  box-shadow: none;
   height: 4rem;
   display: flex;
   align-items: center;
