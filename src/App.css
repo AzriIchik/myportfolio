@@ -48,9 +48,28 @@
 }
 
 .section3__container{
-    border-bottom: 1px solid rgb(220, 220, 200);
     position: relative;
     height: fit-content;
+}
+
+.section4__container{
+    background: #333 url(./assets/img/section1wallpaper.jpg) no-repeat;
+    background-size: cover;
+    object-fit: fill;
+    position: relative;
+    height: fit-content;
+    color: white;
+    width: 100%;
+}
+
+.section4__quotes{
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    position: absolute;
+    border-radius: 50px;
+    top: -50px;
+    right: calc(50% - 40px)
 }
 
 /*UTILS*/
@@ -75,7 +94,7 @@
     }
 
     .px-6{
-        padding-left: 1em;
-        padding-right: 1em;
+        padding-left: 2em;
+        padding-right: 2em;
     }
 }

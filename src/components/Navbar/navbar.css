@@ -14,7 +14,7 @@
   z-index: 999;
 }
 
-.navbar__container ul {
+.navbar__container ul { 
   list-style-type: none;
   display: flex;
   flex-direction: row;

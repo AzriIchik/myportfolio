@@ -1,0 +1,47 @@
+.outline-input-style{
+    width: 100%;
+    background-color: transparent;
+    padding: .8rem;
+    position: relative;
+}
+
+.outline-label-container{
+   z-index: -1;
+   position:absolute;
+   width:100%;
+   height:2px;
+   top:0;
+}
+
+.outline-label{
+   position:relative;
+   top:0.75rem;
+   transition: top 200ms ease-in-out, font-size 200ms ease-in-out;
+}
+
+.outline-input-style:focus{
+    border-top: none !important;
+}
+
+.outline-input-style:focus-visible{
+    outline: none;
+}
+
+.border-focus1{
+    width:0.5rem;
+}
+
+.border-focus2{
+    width:100%;
+}
+
+.outline-input-style:not(:focus).outline-input-style:not(:placeholder-shown){
+    border-top: none !important;
+}
+
+.outline-input-style:focus ~ .outline-label-container .outline-label,
+.outline-input-style:not(:focus).outline-input-style:not(:placeholder-shown) ~ .outline-label-container .outline-label
+{
+    top:-.6rem;
+    font-size: 0.8rem;
+}

@@ -1,10 +1,15 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
-import profilePhoto from "./assets/img/profilephoto.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faQuoteLeft, faDownload } from "@fortawesome/free-solid-svg-icons";
 import DataBox from "./components/DataBox";
+import SkillBox from "./components/SkillBox";
+import ContactUsForm from "./components/ContactUsForm";
+
+import profilePhoto from "./assets/img/profilephoto.jpg";
+import ProjectBox from "./components/ProjectBox";
+import PButton from "./components/PButton";
 
 function App() {
   return (
@@ -44,9 +49,13 @@ function App() {
           and multimedia Web tools.
         </p>
         {/*Later change this into components*/}
-        <button className="btn btn-secondary rounded-pill py-3 px-4">
-          <FontAwesomeIcon icon={faDownload} /> DOWNLOAD CV
-        </button>
+        <PButton
+          icon={faDownload}
+          name={"DOWNLOAD CV"}
+          handler={() => {
+            alert("you click download cv button");
+          }}
+        ></PButton>
       </div>
       <div className="section3__container px-6 py-5">
         <h2 className="mt-5">My Resume_</h2>
@@ -60,17 +69,60 @@ function App() {
         </p>
 
         <h5 className="fw-bold my-5">E M P L O Y M E N T</h5>
-        <DataBox></DataBox>
-        <DataBox></DataBox>
+        <div>
+          <DataBox></DataBox>
+          <DataBox></DataBox>
+          <DataBox></DataBox>
+        </div>
 
-        <h5 className="fw-bold my-5">E D U C A T I O N</h5>
-        <DataBox></DataBox>
-        <DataBox></DataBox>
+        <h5 className="fw-bold my-5">E M P L O Y M E N T</h5>
+        <div>
+          <DataBox></DataBox>
+          <DataBox></DataBox>
+          <DataBox></DataBox>
+        </div>
 
         <h5 className="fw-bold my-5">T E C H &nbsp; S K I L L S</h5>
-
+        <SkillBox></SkillBox>
       </div>
-      <p style={{ color: "red", paddingTop: "1rem" }}>HELLO</p>
+      <div className="section3__container px-6 py-5">
+        <h2 className="my-5">My Project_</h2>
+        <div className="container-fluid">
+          <ProjectBox></ProjectBox>
+          <ProjectBox></ProjectBox>
+          <ProjectBox></ProjectBox>
+        </div>
+      </div>
+      <div className="section4__container px-6 py-5">
+        <div className="section4__quotes">
+          {" "}
+          <p
+            style={{
+              color: "gray",
+              textAlign: "center",
+              paddingTop: "calc(50%)",
+            }}
+          >
+            <FontAwesomeIcon icon={faQuoteLeft} size="2x" />
+          </p>{" "}
+        </div>
+        <h2 className="my-5">Get In Touch_</h2>
+        <div class="row row-cols-auto">
+          <div class="col px-0 pe-5 mb-5 p-2">
+            <dl className="section1__biodata">
+              <dt className="text-opacity">PHONE:</dt> <dd>014-6511665</dd>
+              <dt className="text-opacity">EMAIL:</dt>{" "}
+              <dd>azriperisiben96@gmail.com</dd>
+              <dt className="text-opacity">TELEGRAM:</dt>{" "}
+              <dd>azriperisiben96@gmail.com</dd>
+            </dl>
+          </div>
+          <div class="col px-0">
+            <ContactUsForm></ContactUsForm>
+          </div>
+        </div>
+        <p className="text-center font-small mt-5">© 2016 Mohammad Azri. Hire me, I code for food :)</p>
+      </div>
     </div>
   );
 }
