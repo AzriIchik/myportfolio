@@ -121,7 +121,7 @@ function App() {
             <ContactUsForm></ContactUsForm>
           </div>
         </div>
-        <p className="text-center font-small mt-5">© 2016 Mohammad Azri. Hire me, I code for food :)</p>
+        <p className="text-center font-small mt-5">© 2016 Mohammad Azri. Hire me, I code for food</p>
       </div>
     </div>
   );

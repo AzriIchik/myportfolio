@@ -89,8 +89,8 @@
 
 /*RESPONSIVE*/
 @media screen and (max-width:750px) {
-    .profile-photo{
-        display: none;
+    .section1__content{
+        padding-top: 1rem;
     }
 
     .px-6{
