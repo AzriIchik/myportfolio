@@ -1,27 +1,41 @@
 import React from "react";
 import "./skillbox.css";
 
-const SkillBox = () => {
-  return (
-    <div className="container-fluid">
-      <div className="row row-cols-md-2 row-cols-1">
-        <Skill></Skill>
-        <Skill></Skill>
-        <Skill></Skill>
-      </div>
-    </div>
-  );
-};
+const SkillBox = (props) => {
 
-const Skill = () => {
+  let { name, proficiency } = props.data;
+  let progressBar = { width: "0%" };
+
+  let setProficiency = () => {
+    switch (proficiency) {
+      case 1:
+        progressBar = { width: "20%" };
+        return <span>Really Poor: 20%</span>;
+      case 2:
+        progressBar = { width: "40%" };
+        return <span>Poor: 40%</span>;
+      case 3:
+        progressBar = { width: "50%" };
+        return <span>Average: 50%</span>;
+      case 4:
+        progressBar = { width: "80%" };
+        return <span>Good: 80%</span>;
+      case 5:
+        progressBar = { width: "100%" };
+        return <span>Very Good: 100%</span>;
+    }
+  };
+
   return (
     <div className="col p-0 pe-5 py-2">
       <div className="my-2">
-        <span className="font-small py-1 m-0">Skill name</span>
-        <span className="font-small py-1 m-0 float-end"> <span>Good: </span>100%</span>
+        <span className="font-small py-1 m-0"> {name} </span>
+        <span className="font-small py-1 m-0 float-end">
+          {setProficiency()}
+        </span>
       </div>
       <div className="progress">
-        <div className="progress-bar"></div>
+        <div className="progress-bar" style={progressBar}></div>
       </div>
     </div>
   );

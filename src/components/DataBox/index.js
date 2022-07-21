@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { Collapse } from "react-bootstrap";
 import "./databox.css";
+import PButton from "../PButton";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
-const DataBox = () => {
+const DataBox = (props) => {
   const [viewDescription, setviewDescription] = useState(false);
+
+  let {cert_url, desc, more_desc, place, year, position} = props.data;
 
   return (
     <div className="databox__container">
       <div className="ind" />
       <h5 className="m-0 fw-bold text-primary2">
-        UNIVERSITI PENDIDIKAN SULTAN IDRIS
+        {place || "Place"}
       </h5>
-      <p className="font-small my-2">2002 - 2022</p>
-      <p className="fw-bold mb-1">Bachelor Computer Engineering Lorem</p>
-      <p className="mb-0">
-        Student, Lorem ipsum dolor sit amet, consecte tur adipisicing elit, sed
-        do eiusmod tempor incididunt ut
-      </p>
+      <p className="font-small my-2"> {year || "year"} </p>
+      <p className="fw-bold mb-1">{position}</p>
+      <p className="mb-0"> {desc || "description"} </p>
       <button
         className="font-small fw-bold btninfo"
         onClick={() => {
@@ -27,9 +28,8 @@ const DataBox = () => {
       </button>
       <Collapse in={viewDescription}>
         <div className="font-small">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-          terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
-          labore wes anderson cred nesciunt sapiente ea proident.
+          {more_desc} <br/>
+          {cert_url ? <PButton icon={faDownload} name={"Download Cert"} handler={()=>{window.open(cert_url,'_blank')}}></PButton> : ""}
         </div>
       </Collapse>
     </div>

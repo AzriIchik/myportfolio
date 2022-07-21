@@ -2,7 +2,7 @@ import React from "react";
 import OutlineInput from "./OutlineInput";
 import "./index.css";
 import PButton from "../PButton";
-
+        
 const ContactUsForm = ({color}) => {
 
   return (

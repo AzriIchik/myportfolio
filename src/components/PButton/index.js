@@ -5,10 +5,12 @@ const PButton = (props) => {
 
   return (
     <button
-      className="btn btn-secondary rounded-pill py-3 px-4"
+      className="btn btn-secondary rounded-pill my-2 py-3 px-4"
+      style={{fontSize:"inherit"}}
       onClick={handler}
     >
-      <FontAwesomeIcon icon={icon || null } /> {name}
+      {(icon && <FontAwesomeIcon icon={icon} />) || " "}
+      {" "+name}
     </button>
   );
 };

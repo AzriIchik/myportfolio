@@ -1,3 +1,8 @@
+.app{
+    width: 100%;
+    position: relative;
+}
+
 .section1__container{
     background: #333 url(./assets/img/section1wallpaper.jpg) no-repeat;
     background-size: cover;
@@ -90,7 +95,11 @@
 /*RESPONSIVE*/
 @media screen and (max-width:750px) {
     .section1__content{
-        padding-top: 1rem;
+        padding-top: 0;
+    }
+
+    .profile-photo{
+        display: none;
     }
 
     .px-6{
