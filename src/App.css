@@ -3,6 +3,16 @@
     position: relative;
 }
 
+.alink{
+    text-decoration: none;
+    color: inherit;
+    transition: color 300ms ease-in-out;
+}
+
+.alink:hover{
+    color: var(--primary-clr);
+}
+
 .section1__container{
     background: #333 url(./assets/img/section1wallpaper.jpg) no-repeat;
     background-size: cover;

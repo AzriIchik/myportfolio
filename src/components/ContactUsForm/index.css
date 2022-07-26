@@ -1,3 +1,8 @@
+.contactus-form-container{
+    width:inherit;
+    position: relative;
+}
+
 .contactus-form-container *{
     color: white;
 }

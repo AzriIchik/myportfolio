@@ -29,7 +29,7 @@ const SkillBox = (props) => {
   return (
     <div className="col p-0 pe-5 py-2">
       <div className="my-2">
-        <span className="font-small py-1 m-0"> {name} </span>
+        <span className="font-small py-1 m-0 fw-bold"> {name} </span>
         <span className="font-small py-1 m-0 float-end">
           {setProficiency()}
         </span>

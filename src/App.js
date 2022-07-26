@@ -8,7 +8,7 @@ function App() {
   return (
     <AppContext.Provider value={Appdata}>
       <div className="App">
-        <Home></Home>
+        <Home/>
       </div>
     </AppContext.Provider>
   );

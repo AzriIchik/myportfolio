@@ -5,7 +5,7 @@ const PButton = (props) => {
 
   return (
     <button
-      className="btn btn-secondary rounded-pill my-2 py-3 px-4"
+      className="btn btn-secondary rounded-pill my-2 py-3 px-4 btn-anim"
       style={{fontSize:"inherit"}}
       onClick={handler}
     >
@@ -14,5 +14,5 @@ const PButton = (props) => {
     </button>
   );
 };
-
+ 
 export default PButton;

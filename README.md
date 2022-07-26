@@ -5,3 +5,6 @@ Version 1.0
 
 Version 1.1 
 - Front end dynamic done
+
+Version 1.2
+- Sync with back-end

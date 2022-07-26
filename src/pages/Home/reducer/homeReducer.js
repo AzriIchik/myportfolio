@@ -1,67 +1,59 @@
 /* DATA DEFINTION */
 let homedata = {
-  employmentdata: {
-    data: [
-      {
-        place: "Finexus Sdn Bhd",
-        year: "2002 - 2022",
-        position: "Software Engineer",
-        desc: "A fintech Company at KL, with goal of want to be the best digital financial solution",
-        more_desc:
-          "More data and description More data and descriptionMore data and descriptionMore data and descriptionMore data and descriptionMore data and descriptionMore data and descriptionMore data and descriptionMore data and descriptionMore data and descriptionMore data and description",
-        cert_url:
-          "https://drive.google.com/u/2/uc?id=1OxiSQF-fYH_MP2k4nVRiE0SN0Nh3SV22&export=download",
-      },
-    ],
-  },
-  educationdata: {
-    data: [
-      {
-        place: "UNIVERSITI PENDIDKAN SULTAN IDRIS",
-        year: "2016 - 2020",
-        position: "Bachelor of Software Engineering (Education Software)",
-        desc: "I study Software Engineering lol",
-        more_desc: "What I study",
-        cert_url:
-          "https://stackoverflow.com/questions/4907843/open-a-url-in-a-new-tab-and-not-a-new-window",
-      },
-    ],
-  },
-  skillsdata: {
-    data: [
-      {
-        name: "HTML/CSS",
-        proficiency: 5,
-      },
-      {
-        name: "Javascript",
-        proficiency: 5,
-      },
-      {
-        name: "C",
-        proficiency: 4,
-      },
-    ],
-  },
+  employmentdata: [
+    {
+      place: "",
+      year: "",
+      position: "",
+      desc: "",
+      more_desc: "",
+      cert_url: "",
+    },
+  ],
+  educationdata: [
+    {
+      place: "",
+      year: "",
+      position: "",
+      desc: "",
+      more_desc: "",
+      cert_url: "",
+    },
+  ],
+  skilldata: [
+    {
+      name: "",
+      proficiency: 0,
+    },
+  ],
   portfoliodata: [
     {
-      img_url:
-        "https://previews.aspirity.com/spirit/assets/img/img_project_2_mono.png",
-      name: "My Project",
-      desc: "Project Desc",
-      tech_stack: ["Stack"],
+      id: 0,
+      img_url: "",
+      name: "",
+      desc: "",
+      tech_stack: [],
+      link: "",
     },
   ],
 };
 
 // ACTION LIST
 let SET_PROJECT = "SET_PROJECT";
+let SET_EMPLOYMENT = "SET_EMPLOYMENT";
+let SET_EDUCATION = "SET_EDUCATION";
+let SET_SKILL = "SET_SKILL";
 
 let homeAction = {
   SET_PROJECT,
+  SET_EMPLOYMENT,
+  SET_EDUCATION,
+  SET_SKILL,
 };
 
-let homeReducer = (state, action) => {
+let reducer = (state, action) => {
+  let newState;
+
   switch (action.type) {
     case SET_PROJECT:
       let newPortfolioData = [];
@@ -72,7 +64,8 @@ let homeReducer = (state, action) => {
           project_id,
           project_imgurl,
           project_name,
-          tech_stack,
+          project_techstack,
+          project_link,
         } = data;
 
         newPortfolioData.push({
@@ -80,19 +73,92 @@ let homeReducer = (state, action) => {
           img_url: project_imgurl,
           name: project_name,
           desc: project_desc,
-          tech_stack: JSON.parse(tech_stack),
+          tech_stack: JSON.parse(project_techstack),
+          link: project_link,
         });
-
       });
 
-      let newState = state;
-      newState.portfoliodata = newPortfolioData;
+      newState = { ...state, portfoliodata: newPortfolioData };
       return newState;
+
+    case SET_EMPLOYMENT:
+      let newEmploymentData = [];
+
+      action.payload.forEach((data) => {
+        let {
+          employment_certurl,
+          employment_desc,
+          employment_id,
+          employment_place,
+          employment_position,
+          employment_xtradesc,
+          employment_year,
+        } = data;
+
+        newEmploymentData.push({
+          place: employment_place,
+          year: employment_year,
+          position: employment_position,
+          desc: employment_desc,
+          more_desc: employment_xtradesc,
+          cert_url: employment_certurl,
+        });
+      });
+
+      newState = { ...state, employmentdata: newEmploymentData };
+      return newState;
+
+    case SET_EDUCATION:
+      let newEducationData = [];
+
+      action.payload.forEach((data) => {
+        let {
+          education_certurl,
+          education_desc,
+          education_id,
+          education_place,
+          education_position,
+          education_xtradesc,
+          education_year,
+        } = data;
+
+        newEducationData.push({
+          place: education_place,
+          year: education_year,
+          position: education_position,
+          desc: education_desc,
+          more_desc: education_xtradesc,
+          cert_url: education_certurl,
+        });
+      });
+
+      newState = { ...state, educationdata: newEducationData };
+      return newState;
+
+    case SET_SKILL:
+      let newSkillData = [];
+
+      action.payload.forEach((data) => {
+        let { skill_id, skill_name, skill_proficiency } = data;
+
+        newSkillData.push({
+          name: skill_name,
+          proficiency: skill_proficiency,
+        });
+      });
+
+      newState = { ...state, skilldata: newSkillData };
+
+      return newState;
+
+    default:
+      console.log("ERROR TYPE");
+      return;
   }
 };
 
-export default homeReducer = {
+export let homeReducer = {
   state: homedata,
-  reducer: homeReducer,
+  reducer: reducer,
   action: homeAction,
 };
