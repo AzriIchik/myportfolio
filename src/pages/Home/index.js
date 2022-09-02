@@ -8,7 +8,7 @@ import ContactUsForm from "../../components/ContactUsForm";
 import profilePhoto from "../../assets/img/profilephoto.jpeg";
 import ProjectBox from "../../components/ProjectBox";
 import PButton from "../../components/PButton";
-import { homeReducer } from "./reducer/homeReducer";
+import { homeReducer } from "../reducer/appReducer";
 import webdata from "../../components/webdata";
 
 //api
@@ -17,7 +17,7 @@ import {
   fetchEmployment,
   fetchProject,
   fetchSkill,
-} from "./api/portfolioserver";
+} from "../../api/portfolioserver";
 
 const Home = () => {
   const [state, dispatch] = useReducer(homeReducer.reducer, homeReducer.state);
@@ -64,6 +64,7 @@ const Home = () => {
           <div className="ps-0 ps-md-5 pt-5 bd-highlight flex-grow-1">
             <h2> {webdata.profile.name} </h2>
             <p className="text-opacity">{webdata.profile.description}</p>
+
             <dl className="section1__biodata py-4">
               <dt className="text-opacity">AGE:</dt>{" "}
               <dd>{webdata.profile.age}</dd>
@@ -82,8 +83,8 @@ const Home = () => {
               </dd>
               <dt className="text-opacity">ADDRESS:</dt>{" "}
               <dd>
-                Pangsapuri Ria, Jalan Bukit Mewah 31, <br /> Taman Bukit Mewah,
-                43000 Kajang, Selangor
+                Pangsapuri Ria, Jalan Bukit Mewah 31,Taman Bukit Mewah, 43000
+                Kajang, Selangor
               </dd>
             </dl>
           </div>
@@ -91,13 +92,12 @@ const Home = () => {
       </div>
       <div className="section2__container px-6 py-5">
         <h2 className="mt-5">Hi There_</h2>
-        <p className="my-5">
-          I am Junior Web developer able to build a Web presence from the ground
-          up - from concept, navigation, layout and programming to UX and SEO.
-          Skilled at writing well-designed, testable and efficient code using
-          current best practices in Web development. Fast learner, hard worker
-          and team player who is proficient in an array of scripting languages
-          and multimedia Web tools.
+        <p className="my-4">
+          I am a Web Dev Enthusiast with interest in learning Web development, I
+          am able to develop web presence from the ground up, able to design web
+          from concept, navigation, layout and programming. When it come to web
+          tech I am a Fast learner, hard worker and team player who is
+          proficient in an array of scripting languages
         </p>
         <PButton
           icon={faDownload}
@@ -107,33 +107,37 @@ const Home = () => {
           }}
         ></PButton>
       </div>
-      <div className="section3__container px-6 py-5" id="resume">
-        <h2 className="mt-5">My Resume_</h2>
+      <div
+        id="resume"
+        className="section3__container px-6 py-5"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <h2 className="mt-3">My Resume_</h2>
         <p className="my-5">
-          I am Junior Web developer able to build a Web presence from the ground
-          up - from concept, navigation, layout and programming to UX and SEO.
-          Skilled at writing well-designed, testable and efficient code using
-          current best practices in Web development. Fast learner, hard worker
-          and team player who is proficient in an array of scripting languages
-          and multimedia Web tools.
+          These is are some of my experience and archivement in programming, i've works in some places that help improved my proficiency in programming. I also have experience working in a team of professional, and I assure I can add a value to your team 
         </p>
 
-        <h5 className="fw-bold my-5">E M P L O Y M E N T</h5>
-        <div>
-          {state.employmentdata.map((data, index) => {
-            return (
-              <DataBox key={"employmentData" + index} data={data}></DataBox>
-            );
-          })}
+        <div data-aos="fade-up">
+          <h5 className="fw-bold my-5">E M P L O Y M E N T</h5>
+          <div>
+            {state.employmentdata.map((data, index) => {
+              return (
+                <DataBox key={"employmentData" + index} data={data}></DataBox>
+              );
+            })}
+          </div>
         </div>
 
-        <h5 className="fw-bold my-5">E D U C A T I O N </h5>
-        <div>
-          {state.educationdata.map((data, index) => {
-            return (
-              <DataBox key={"educationData" + index} data={data}></DataBox>
-            );
-          })}
+        <div data-aos="fade-up">
+          <h5 className="fw-bold my-5">E D U C A T I O N </h5>
+          <div>
+            {state.educationdata.map((data, index) => {
+              return (
+                <DataBox key={"educationData" + index} data={data}></DataBox>
+              );
+            })}
+          </div>
         </div>
 
         <h5 className="fw-bold my-5">T E C H &nbsp; S K I L L S</h5>

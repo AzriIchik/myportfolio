@@ -5,9 +5,9 @@ import PButton from "../PButton";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 const DataBox = (props) => {
-  const [viewDescription, setviewDescription] = useState(false);
+  const [viewDescription, setviewDescription] = useState(true);
 
-  let {cert_url, desc, more_desc, place, year, position} = props.data;
+  let {cert_url, desc, more_desc, place, start_date, end_date, position} = props.data;
 
   return (
     <div className="databox__container">
@@ -15,7 +15,7 @@ const DataBox = (props) => {
       <h5 className="m-0 fw-bold text-primary2">
         {place || "Place"}
       </h5>
-      <p className="font-small my-2"> {year || "year"} </p>
+      <p className="font-small my-2"> {start_date || "year"} <b>---</b> {end_date || "year"} </p>
       <p className="fw-bold mb-1">{position}</p>
       <p className="mb-0"> {desc || "description"} </p>
       <button
@@ -24,7 +24,7 @@ const DataBox = (props) => {
           setviewDescription(!viewDescription);
         }}
       >
-        More Info...
+        {viewDescription ? "Hide Info" : "More Info"} 
       </button>
       <Collapse in={viewDescription}>
         <div className="font-small">

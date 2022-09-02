@@ -1,41 +1,9 @@
 /* DATA DEFINTION */
 let homedata = {
-  employmentdata: [
-    {
-      place: "",
-      year: "",
-      position: "",
-      desc: "",
-      more_desc: "",
-      cert_url: "",
-    },
-  ],
-  educationdata: [
-    {
-      place: "",
-      year: "",
-      position: "",
-      desc: "",
-      more_desc: "",
-      cert_url: "",
-    },
-  ],
-  skilldata: [
-    {
-      name: "",
-      proficiency: 0,
-    },
-  ],
-  portfoliodata: [
-    {
-      id: 0,
-      img_url: "",
-      name: "",
-      desc: "",
-      tech_stack: [],
-      link: "",
-    },
-  ],
+  employmentdata: [],
+  educationdata: [],
+  skilldata: [],
+  portfoliodata: [],
 };
 
 // ACTION LIST
@@ -82,8 +50,9 @@ let reducer = (state, action) => {
       return newState;
 
     case SET_EMPLOYMENT:
-      let newEmploymentData = [];
+      if (action.payload.massage == "no row") return state;
 
+      let newEmploymentData = [];
       action.payload.forEach((data) => {
         let {
           employment_certurl,
@@ -92,16 +61,19 @@ let reducer = (state, action) => {
           employment_place,
           employment_position,
           employment_xtradesc,
-          employment_year,
+          employment_startdate,
+          employment_enddate,
         } = data;
 
         newEmploymentData.push({
+          id: employment_id,
           place: employment_place,
-          year: employment_year,
           position: employment_position,
           desc: employment_desc,
           more_desc: employment_xtradesc,
           cert_url: employment_certurl,
+          start_date: employment_startdate,
+          end_date: employment_enddate,
         });
       });
 
@@ -109,6 +81,8 @@ let reducer = (state, action) => {
       return newState;
 
     case SET_EDUCATION:
+      if (action.payload.massage == "no row") return state;
+
       let newEducationData = [];
 
       action.payload.forEach((data) => {
@@ -119,16 +93,19 @@ let reducer = (state, action) => {
           education_place,
           education_position,
           education_xtradesc,
-          education_year,
+          education_startdate,
+          education_enddate,
         } = data;
 
         newEducationData.push({
+          id: education_id,
           place: education_place,
-          year: education_year,
           position: education_position,
           desc: education_desc,
           more_desc: education_xtradesc,
           cert_url: education_certurl,
+          start_date: education_startdate,
+          end_date: education_enddate,
         });
       });
 
@@ -136,12 +113,14 @@ let reducer = (state, action) => {
       return newState;
 
     case SET_SKILL:
+      if (action.payload.massage == "no row") return state;
       let newSkillData = [];
 
       action.payload.forEach((data) => {
         let { skill_id, skill_name, skill_proficiency } = data;
 
         newSkillData.push({
+          id: skill_id,
           name: skill_name,
           proficiency: skill_proficiency,
         });

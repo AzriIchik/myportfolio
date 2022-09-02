@@ -38,3 +38,22 @@
 .project__link:hover{
     color:var(--primary-clr);
 }
+
+.carousel-indicators{
+    margin:0 !important;
+    position: absolute;
+    bottom:-30px;
+}
+
+.carousel-indicators button{
+    background-color: var(--primary-clr) !important;
+    padding: 2px 0 !important;
+}
+
+.carousel-project-item{
+    width: 75%;
+    padding-top: 40%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

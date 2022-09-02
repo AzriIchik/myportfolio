@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import OutlineInput from "./OutlineInput";
 import "./index.css";
 import PButton from "../PButton";
-import { sendLetter } from "./api/submitHandler";
+import { sendLetter } from "../../api/submitHandler";
 
 const ContactUsForm = ({ color }) => {
   let name = useRef();
