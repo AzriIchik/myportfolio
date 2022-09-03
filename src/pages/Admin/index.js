@@ -1,6 +1,6 @@
 import "./index.css";
-import { useReducer, useState, useEffect } from "react";
-import { homeReducer } from "../reducer/appReducer";
+import { useContext } from "react";
+import { AppContext } from "appdata/appcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTachographDigital,
@@ -10,73 +10,13 @@ import {
   faBars,
   faAdd,
 } from "@fortawesome/free-solid-svg-icons";
-import Toast from "react-bootstrap/Toast";
 
-//api
-import {
-  fetchEducation,
-  fetchEmployment,
-  fetchProject,
-  fetchSkill,
-  updateEmployment,
-  updateEducation,
-  updateSkill,
-  deleteEmployment,
-  deleteEducation,
-  deleteSkill,
-} from "../../api/portfolioserver";
+import EducationForm from "./components/EducationForm";
+import EmploymentForm from "./components/EmploymentForm";
+import SkillForm from "./components/SkillForm";
 
 function Admin() {
-  const [state, dispatch] = useReducer(homeReducer.reducer, homeReducer.state);
-  const [editEmployForm, setEditEmployForm] = useState({
-    id: 0,
-    cert_url: "",
-    desc: "",
-    place: "",
-    position: "",
-    more_desc: "",
-    start_date: "",
-    end_date: "",
-  });
-
-  const [editEducationForm, setEditEducationForm] = useState({
-    id: 0,
-    cert_url: "",
-    desc: "",
-    place: "",
-    position: "",
-    more_desc: "",
-    start_date: "",
-    end_date: "",
-  });
-
-  const [editSKillForm, setEditSkillForm] = useState({
-    id: 0,
-    name: "",
-    proficiency: 1,
-  });
-
-  let loadData = async () => {
-    let projectData = await fetchProject();
-    let employmentData = await fetchEmployment();
-    let educationData = await fetchEducation();
-    let skillData = await fetchSkill();
-
-    dispatch({ type: homeReducer.action.SET_PROJECT, payload: projectData });
-    dispatch({
-      type: homeReducer.action.SET_EMPLOYMENT,
-      payload: employmentData,
-    });
-
-    dispatch({
-      type: homeReducer.action.SET_EDUCATION,
-      payload: educationData,
-    });
-    dispatch({
-      type: homeReducer.action.SET_SKILL,
-      payload: skillData,
-    });
-  };
+  const { appData, appDispatch, appAction } = useContext(AppContext);
 
   let setProficiency = (proficiency) => {
     switch (proficiency) {
@@ -90,12 +30,10 @@ function Admin() {
         return <span>Good</span>;
       case 5:
         return <span>Very Good</span>;
+      default:
+        return <span>Really Poor</span>;
     }
   };
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   return (
     <div className="" id="home">
@@ -166,16 +104,36 @@ function Admin() {
           </div>
         </div>
         <div className="row tm-content-row">
-          <div className="col-12 tm-block-col">
+          <div className="col-12 tm-block-col" style={{ position: "relative" }}>
+            <div style={{ position: "absolute", right: "50px", top: "25px" }}>
+              <h2
+                id="addEducation"
+                className="tm-block-title add-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEmploymentForm"
+                onClick={() => {
+                  appDispatch({
+                    type: appAction.SET_EMPLOYMENT_FORM,
+                    payload: {
+                      id: undefined,
+                      cert_url: "",
+                      desc: "",
+                      place: "",
+                      position: "",
+                      more_desc: "",
+                      start_date: "",
+                      end_date: "",
+                    },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faAdd} />
+              </h2>
+            </div>
             <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
               <div className="d-flex justify-content-between">
                 <div>
                   <h2 className="tm-block-title">Employment List</h2>
-                </div>
-                <div>
-                  <h2 id="addEmployment" className="tm-block-title add-btn">
-                    <FontAwesomeIcon icon={faAdd} />
-                  </h2>
                 </div>
               </div>
 
@@ -192,7 +150,7 @@ function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {state.employmentdata.map((data) => {
+                  {appData.employmentdata.map((data) => {
                     let {
                       id,
                       cert_url,
@@ -208,16 +166,9 @@ function Admin() {
                       <tr
                         id={id}
                         onClick={() => {
-                          setEditEmployForm({
-                            ...editEmployForm,
-                            id,
-                            cert_url,
-                            desc,
-                            place,
-                            position,
-                            more_desc,
-                            start_date,
-                            end_date,
+                          appDispatch({
+                            type: appAction.SET_EMPLOYMENT_FORM,
+                            payload: { ...data, action: "edit" },
                           });
                         }}
                         data-bs-toggle="modal"
@@ -248,8 +199,28 @@ function Admin() {
           </div>
 
           <div className="col-12 tm-block-col" style={{ position: "relative" }}>
-            <div style={{ position: "absolute", right: "50px", top:"25px" }}>
-              <h2 id="addEducation" className="tm-block-title add-btn">
+            <div style={{ position: "absolute", right: "50px", top: "25px" }}>
+              <h2
+                id="addEducation"
+                className="tm-block-title add-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEducationForm"
+                onClick={() => {
+                  appDispatch({
+                    type: appAction.SET_EDUCATION_FORM,
+                    payload: {
+                      id: undefined,
+                      cert_url: "",
+                      desc: "",
+                      place: "",
+                      position: "",
+                      more_desc: "",
+                      start_date: "",
+                      end_date: "",
+                    },
+                  });
+                }}
+              >
                 <FontAwesomeIcon icon={faAdd} />
               </h2>
             </div>
@@ -272,53 +243,34 @@ function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {state.educationdata.map((data) => {
-                    let {
-                      cert_url,
-                      desc,
-                      id,
-                      more_desc,
-                      place,
-                      position,
-                      start_date,
-                      end_date,
-                    } = data;
-
+                  {appData.educationdata.map((data) => {
                     return (
                       <tr
-                        id={id}
+                        id={data.id}
                         onClick={() => {
-                          setEditEducationForm({
-                            ...editEducationForm,
-                            id,
-                            cert_url,
-                            desc,
-                            place,
-                            position,
-                            more_desc,
-                            start_date,
-                            end_date,
+                          appDispatch({
+                            type: appAction.SET_EDUCATION_FORM,
+                            payload: { ...data, action: "edit" },
                           });
                         }}
                         data-bs-toggle="modal"
                         data-bs-target="#modalEducationForm"
-                        data-bs-whatever="@mdo"
                       >
                         <th scope="col">
-                          <b>{place}</b>
+                          <b>{data.place}</b>
                         </th>
 
-                        <td>{start_date}</td>
-                        <td>{end_date}</td>
-                        <td>{position}</td>
+                        <td>{data.start_date}</td>
+                        <td>{data.end_date}</td>
+                        <td>{data.position}</td>
                         <td className="fixed-td">
-                          <b>{desc}</b>
+                          <b>{data.desc}</b>
                         </td>
                         <td className="fixed-td">
-                          <b>{more_desc}</b>
+                          <b>{data.more_desc}</b>
                         </td>
                         <td scope="col">
-                          <a href={cert_url}>Downlod Me</a>
+                          <a href={data.cert_url}>Downlod Me</a>
                         </td>
                       </tr>
                     );
@@ -328,16 +280,31 @@ function Admin() {
             </div>
           </div>
 
-          <div className="col-12 tm-block-col">
+          <div className="col-12 tm-block-col" style={{ position: "relative" }}>
+            <div style={{ position: "absolute", right: "50px", top: "25px" }}>
+              <h2
+                id="addEducation"
+                className="tm-block-title add-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#modalSkillForm"
+                onClick={() => {
+                  appDispatch({
+                    type: appAction.SET_SKILL_FORM,
+                    payload: {
+                      id: undefined,
+                      name: "",
+                      proficiency: 1,
+                    },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faAdd} />
+              </h2>
+            </div>
             <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
               <div className="d-flex justify-content-between">
                 <div>
                   <h2 className="tm-block-title">Tech Skill List</h2>
-                </div>
-                <div>
-                  <h2 id="addEducation" className="tm-block-title add-btn">
-                    <FontAwesomeIcon icon={faAdd} />
-                  </h2>
                 </div>
               </div>
               <table className="table">
@@ -348,17 +315,15 @@ function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {state.skilldata.map((data) => {
+                  {appData.skilldata.map((data) => {
                     let { id, name, proficiency } = data;
                     return (
                       <tr
                         id={id}
                         onClick={() => {
-                          setEditSkillForm({
-                            ...editSKillForm,
-                            id,
-                            name,
-                            proficiency,
+                          appDispatch({
+                            type: appAction.SET_SKILL_FORM,
+                            payload: { ...data, action: "edit" },
                           });
                         }}
                         data-bs-toggle="modal"
@@ -390,351 +355,9 @@ function Admin() {
           </p>
         </div>
       </footer>
-      <EmploymentForm
-        data={{ editEmployForm, setEditEmployForm }}
-      ></EmploymentForm>
-
-      <EducationForm
-        data={{ editEducationForm, setEditEducationForm }}
-      ></EducationForm>
-
-      <SkillForm data={{ editSKillForm, setEditSkillForm }}></SkillForm>
-    </div>
-  );
-}
-
-function EmploymentForm({ data }) {
-  let { editEmployForm, setEditEmployForm } = data;
-
-  let handleInputChange = (e) => {
-    let key = e.target.name;
-    let value = e.target.value;
-    setEditEmployForm({ ...editEmployForm, [key]: value });
-  };
-
-  return (
-    <div className="modal fade" id="modalEmploymentForm">
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Edit Data</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <input
-                type="text"
-                className="form-control mb-3"
-                name="place"
-                onChange={handleInputChange}
-                value={editEmployForm.place}
-                placeholder="PLACE"
-                style={{ color: "white" }}
-              />
-
-              <div className="mb-3">
-                <input
-                  type="date"
-                  name="start_date"
-                  onChange={handleInputChange}
-                  value={editEmployForm.start_date}
-                  min="2018-01-01"
-                  max="2040-12-12"
-                  style={{ padding: "10px 9px" }}
-                />
-                <span className="fw-bolder mx-2">---</span>
-                <input
-                  type="date"
-                  name="end_date"
-                  onChange={handleInputChange}
-                  value={editEmployForm.end_date}
-                  min="2018-01-01"
-                  max="2040-12-12"
-                  style={{ padding: "10px 9px" }}
-                />
-              </div>
-
-              <input
-                type="text"
-                className="form-control mb-3"
-                name="position"
-                onChange={handleInputChange}
-                value={editEmployForm.position}
-                placeholder="POSITION"
-                style={{ color: "white" }}
-              />
-
-              <textarea
-                className="form-control mb-3"
-                style={{ height: "20vh" }}
-                name="desc"
-                onChange={handleInputChange}
-                value={editEmployForm.desc}
-                placeholder="DESCRIPTION"
-                rows="6"
-              ></textarea>
-
-              <textarea
-                className="form-control mb-3"
-                style={{ height: "20vh" }}
-                name="more_desc"
-                onChange={handleInputChange}
-                value={editEmployForm.more_desc}
-                placeholder="MORE DESCRIPTION"
-                rows="6"
-              ></textarea>
-
-              <textarea
-                className="form-control mb-3"
-                style={{ height: "15vh" }}
-                name="cert_url"
-                onChange={handleInputChange}
-                value={editEmployForm.cert_url}
-                placeholder="URL CERT"
-                rows="3"
-              ></textarea>
-
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={async () => {
-                  let response = await updateEmployment(editEmployForm);
-                  if (response)
-                    document.getElementById("modalEmploymentForm").click();
-                  else return 1;
-                }}
-              >
-                Approve
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger display-inline"
-                onClick={async () => {
-                  let reply = window.confirm(
-                    "Are you sure you want to delete this data?"
-                  );
-                  if (reply) deleteEmployment(editEmployForm.id);
-                  document.getElementById("modalEmploymentForm").click();
-                }}
-              >
-                Delete
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function EducationForm({ data }) {
-  let { editEducationForm, setEditEducationForm } = data;
-
-  let handleInputChange = (e) => {
-    let key = e.target.name;
-    let value = e.target.value;
-    setEditEducationForm({ ...editEducationForm, [key]: value });
-  };
-
-  return (
-    <div className="modal fade" id="modalEducationForm">
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Edit Data</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <input
-                type="text"
-                className="form-control mb-3"
-                name="place"
-                onChange={handleInputChange}
-                value={editEducationForm.place}
-                placeholder="PLACE"
-                style={{ color: "white" }}
-              />
-
-              <div className="mb-3">
-                <input
-                  type="date"
-                  name="start_date"
-                  onChange={handleInputChange}
-                  value={editEducationForm.start_date}
-                  min="2018-01-01"
-                  max="2040-12-12"
-                  style={{ padding: "10px 9px" }}
-                />
-                <span className="fw-bolder mx-2">---</span>
-                <input
-                  type="date"
-                  name="end_date"
-                  onChange={handleInputChange}
-                  value={editEducationForm.end_date}
-                  min="2018-01-01"
-                  max="2040-12-12"
-                  style={{ padding: "10px 9px" }}
-                />
-              </div>
-
-              <input
-                type="text"
-                className="form-control mb-3"
-                name="position"
-                onChange={handleInputChange}
-                value={editEducationForm.position}
-                placeholder="POSITION"
-                style={{ color: "white" }}
-              />
-
-              <textarea
-                className="form-control mb-3"
-                style={{ height: "20vh" }}
-                name="desc"
-                onChange={handleInputChange}
-                value={editEducationForm.desc}
-                placeholder="DESCRIPTION"
-                rows="6"
-              ></textarea>
-
-              <textarea
-                className="form-control mb-3"
-                style={{ height: "20vh" }}
-                name="more_desc"
-                onChange={handleInputChange}
-                value={editEducationForm.more_desc}
-                placeholder="MORE DESCRIPTION"
-                rows="6"
-              ></textarea>
-
-              <textarea
-                className="form-control mb-3"
-                style={{ height: "15vh" }}
-                name="cert_url"
-                onChange={handleInputChange}
-                value={editEducationForm.cert_url}
-                placeholder="URL CERT"
-                rows="3"
-              ></textarea>
-
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={async () => {
-                  let response = await updateEducation(editEducationForm);
-                  if (response)
-                    document.getElementById("modalEducationForm").click();
-                  else return 1;
-                }}
-              >
-                Approve
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger display-inline"
-                onClick={async () => {
-                  let reply = window.confirm(
-                    "Are you sure you want to delete this data?"
-                  );
-                  if (reply) deleteEducation(editEducationForm.id);
-                  document.getElementById("modalEducationForm").click();
-                }}
-              >
-                Delete
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SkillForm({ data }) {
-  let { editSKillForm, setEditSkillForm } = data;
-
-  let handleInputChange = (e) => {
-    let key = e.target.name;
-    let value = e.target.value;
-    setEditSkillForm({ ...editSKillForm, [key]: value });
-  };
-
-  return (
-    <div className="modal fade" id="modalSkillForm">
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Edit Data</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <input
-                type="text"
-                className="form-control mb-3"
-                name="name"
-                onChange={handleInputChange}
-                value={editSKillForm.name}
-                placeholder="SKILL NAME"
-                style={{ color: "white" }}
-              />
-              <select
-                className="form-select"
-                name="proficiency"
-                value={editSKillForm.proficiency}
-                onChange={handleInputChange}
-              >
-                <option value="1">Very Poor</option>
-                <option value="2">Poor</option>
-                <option value="3">Average</option>
-                <option value="4">Good</option>
-                <option value="5">Very Good</option>
-              </select>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={async () => {
-                  let response = await updateSkill(editSKillForm);
-                  if (response)
-                    document.getElementById("modalSkillForm").click();
-                  else return 1;
-                }}
-              >
-                Approve
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger display-inline"
-                onClick={async () => {
-                  let reply = window.confirm(
-                    "Are you sure you want to delete this data?"
-                  );
-                  if (reply) deleteSkill(editSKillForm.id);
-                  document.getElementById("modalSkillForm").click();
-                }}
-              >
-                Delete
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <EmploymentForm></EmploymentForm>
+      <EducationForm></EducationForm>
+      <SkillForm></SkillForm>
     </div>
   );
 }

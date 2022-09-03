@@ -1,5 +1,5 @@
 let axios = require('axios');
-let config = require('../config.json')
+let config = require('config.json')
 
 let baseUrl = config.server_url;
 

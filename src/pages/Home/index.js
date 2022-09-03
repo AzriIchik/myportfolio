@@ -1,52 +1,20 @@
-import React, { useReducer } from "react";
-import Navbar from "../../components/Navbar";
+import React, {useContext } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faDownload } from "@fortawesome/free-solid-svg-icons"; //Icon
-import DataBox from "../../components/DataBox";
-import SkillBox from "../../components/SkillBox";
-import ContactUsForm from "../../components/ContactUsForm";
+import Navbar from "./components/Navbar";
+import DataBox from "./components/DataBox";
+import SkillBox from "./components/SkillBox";
+import ContactUsForm from "./components/ContactUsForm";
+import ProjectBox from "./components/ProjectBox";
+import PButton from "./components/PButton";
+import { AppContext } from "../../appdata/appcontext";
 import profilePhoto from "../../assets/img/profilephoto.jpeg";
-import ProjectBox from "../../components/ProjectBox";
-import PButton from "../../components/PButton";
-import { homeReducer } from "../reducer/appReducer";
-import webdata from "../../components/webdata";
-
-//api
-import {
-  fetchEducation,
-  fetchEmployment,
-  fetchProject,
-  fetchSkill,
-} from "../../api/portfolioserver";
+import webdata from "./components/webdata";
 
 const Home = () => {
-  const [state, dispatch] = useReducer(homeReducer.reducer, homeReducer.state);
 
-  let loadData = async () => {
-    let projectData = await fetchProject();
-    let employmentData = await fetchEmployment();
-    let educationData = await fetchEducation();
-    let skillData = await fetchSkill();
-
-    dispatch({ type: homeReducer.action.SET_PROJECT, payload: projectData });
-    dispatch({
-      type: homeReducer.action.SET_EMPLOYMENT,
-      payload: employmentData,
-    });
-
-    dispatch({
-      type: homeReducer.action.SET_EDUCATION,
-      payload: educationData,
-    });
-    dispatch({
-      type: homeReducer.action.SET_SKILL,
-      payload: skillData,
-    });
-  };
-
-  React.useEffect(() => {
-    loadData();
-  }, []);
+  const {appData, appDispatch, appAction} = useContext(AppContext);
 
   return (
     <div
@@ -121,7 +89,7 @@ const Home = () => {
         <div data-aos="fade-up">
           <h5 className="fw-bold my-5">E M P L O Y M E N T</h5>
           <div>
-            {state.employmentdata.map((data, index) => {
+            {appData.employmentdata.map((data, index) => {
               return (
                 <DataBox key={"employmentData" + index} data={data}></DataBox>
               );
@@ -132,7 +100,7 @@ const Home = () => {
         <div data-aos="fade-up">
           <h5 className="fw-bold my-5">E D U C A T I O N </h5>
           <div>
-            {state.educationdata.map((data, index) => {
+            {appData.educationdata.map((data, index) => {
               return (
                 <DataBox key={"educationData" + index} data={data}></DataBox>
               );
@@ -144,7 +112,7 @@ const Home = () => {
 
         <div className="container-fluid">
           <div className="row row-cols-md-2 row-cols-1">
-            {state.skilldata.map((data, index) => {
+            {appData.skilldata.map((data, index) => {
               return <SkillBox key={"skills" + index} data={data}></SkillBox>;
             })}
           </div>
@@ -153,8 +121,8 @@ const Home = () => {
       <div className="section3__container px-6 py-5" id="portfolio">
         <h2 className="my-5">My Project_</h2>
         <div className="container-fluid">
-          {state.portfoliodata &&
-            state.portfoliodata.map((data, index) => {
+          {appData.portfoliodata &&
+            appData.portfoliodata.map((data, index) => {
               return (
                 <ProjectBox key={"project" + index} data={data}></ProjectBox>
               );
@@ -208,6 +176,7 @@ const Home = () => {
       </div>
     </div>
   );
+
 };
 
 export default Home;
