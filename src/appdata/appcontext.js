@@ -2,10 +2,41 @@ import React from "react";
 
 /* DATA DEFINTION */
 let appdata = {
+  loggedin: false,
+  profiledata: {
+    name: "",
+    imgurl: "",
+    title: "",
+    age: 0,
+    phoneno: "",
+    email: "",
+    address: "",
+    aboutme: "",
+    aboutresume: "",
+  },
   employmentdata: [],
   educationdata: [],
   skilldata: [],
   portfoliodata: [],
+  profileformdata: {
+    name: "",
+    imgurl: "",
+    title: "",
+    age: 0,
+    phoneno: "",
+    email: "",
+    address: "",
+    aboutme: "",
+    aboutresume: "",
+  },
+  projectformdata: {
+    id: 0,
+    img_url: [],
+    name: "",
+    desc: "",
+    tech_stack: [],
+    link: "",
+  },
   employmentformdata: {
     id: 0,
     cert_url: "",
@@ -34,37 +65,78 @@ let appdata = {
 };
 
 // ACTION LIST
+let SET_PROFILE = "SET_PROFILE";
 let SET_PROJECT = "SET_PROJECT";
 let SET_EMPLOYMENT = "SET_EMPLOYMENT";
 let SET_EDUCATION = "SET_EDUCATION";
 let SET_SKILL = "SET_SKILL";
+let SET_PROJECT_FORM = "SET_PROJECT_FORM";
 let SET_EDUCATION_FORM = "SET_EDUCATION_FORM";
 let SET_EMPLOYMENT_FORM = "SET_EMPLOYMENT_FORM";
 let SET_SKILL_FORM = "SET_SKILL_FORM";
+let SET_PROFILE_FORM = "SET_PROFILE_FORM";
+let SET_LOG_IN = "SET_LOG_IN";
 
 let action = {
+  SET_PROFILE,
   SET_PROJECT,
   SET_EMPLOYMENT,
   SET_EDUCATION,
   SET_SKILL,
+  SET_PROJECT_FORM,
   SET_EDUCATION_FORM,
   SET_EMPLOYMENT_FORM,
   SET_SKILL_FORM,
+  SET_PROFILE_FORM,
+  SET_LOG_IN
 };
 
 let reducer = (state, action) => {
   let newState;
 
   switch (action.type) {
+    case SET_PROFILE:
+      let newProfileData = [];
+
+      action.payload.forEach((data) => {
+        let {
+          myprofile_aboutme,
+          myprofile_aboutresume,
+          myprofile_address,
+          myprofile_age,
+          myprofile_email,
+          myprofile_imgurl,
+          myprofile_name,
+          myprofile_phoneno,
+          myprofile_title,
+        } = data;
+
+        newProfileData = {
+          name: myprofile_name,
+          imgurl: myprofile_imgurl,
+          title: myprofile_title,
+          age: myprofile_age,
+          phoneno: myprofile_phoneno,
+          email: myprofile_email,
+          address: myprofile_address,
+          aboutme: myprofile_aboutme,
+          aboutresume: myprofile_aboutresume,
+        };
+      });
+
+      newState = { ...state, profiledata: newProfileData };
+      return newState;
+
     case SET_PROJECT:
-      
       let newPortfolioData = [];
 
       action.payload.forEach((data) => {
         let {
           project_desc,
           project_id,
-          project_imgurl,
+          project_imgurl1,
+          project_imgurl2,
+          project_imgurl3,
           project_name,
           project_techstack,
           project_link,
@@ -72,10 +144,12 @@ let reducer = (state, action) => {
 
         newPortfolioData.push({
           id: project_id,
-          img_url: project_imgurl,
+          img_url1: project_imgurl1,
+          img_url2: project_imgurl2,
+          img_url3: project_imgurl3,
           name: project_name,
           desc: project_desc,
-          tech_stack: JSON.parse(project_techstack),
+          tech_stack: project_techstack,
           link: project_link,
         });
       });
@@ -167,6 +241,25 @@ let reducer = (state, action) => {
 
       return newState;
 
+    case SET_PROJECT_FORM:
+      if (action.payload === undefined) return state;
+
+      newState = {
+        ...state,
+        projectformdata: {
+          id: action.payload.id,
+          img_url1: action.payload.img_url1,
+          img_url2: action.payload.img_url2,
+          img_url3: action.payload.img_url3,
+          name: action.payload.name,
+          desc: action.payload.desc,
+          tech_stack: action.payload.tech_stack,
+          link: action.payload.link,
+        },
+      };
+
+      return newState;
+
     case SET_EDUCATION_FORM:
       if (action.payload === undefined) return state;
 
@@ -219,9 +312,31 @@ let reducer = (state, action) => {
 
       return newState;
 
+    case SET_PROFILE_FORM:
+      if (action.payload === undefined) return state;
+
+      newState = {
+        ...state,
+        profileformdata: {
+          name: action.payload.name,
+          imgurl: action.payload.imgurl,
+          title: action.payload.title,
+          age: action.payload.age,
+          phoneno: action.payload.phoneno,
+          email: action.payload.email,
+          address: action.payload.address,
+          aboutme: action.payload.aboutme,
+          aboutresume: action.payload.aboutresume,
+        },
+      };
+      return newState;
+
+    case SET_LOG_IN:
+      if (action.payload === undefined) return state;
+      return {...state,loggedin:action.payload.login};;
     default:
-      console.log("ERROR TYPE");
-      return;
+      console.log("ERROR TYPE:" + action.type);
+      return state;
   }
 };
 

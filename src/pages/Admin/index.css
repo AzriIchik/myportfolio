@@ -152,6 +152,7 @@ button:focus {
 }
 .nav-item {
   text-align: center;
+  cursor: pointer;
 }
 .nav-item:last-child {
   margin-right: 0;

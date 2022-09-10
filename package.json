@@ -1,6 +1,7 @@
 {
   "name": "myportfolio",
   "version": "0.1.0",
+  "homepage": "https://azriperisiben.me",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -15,6 +16,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.2.0",
+    "react-multiple-image-input": "^1.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"

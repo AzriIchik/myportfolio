@@ -1,0 +1,8 @@
+.form-project-item{
+    width: 100%;
+    padding-top: 56.25%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border: 1px solid var(--primary-clr)
+}

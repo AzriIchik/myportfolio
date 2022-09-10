@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import OutlineInput from "./OutlineInput";
 import "./index.css";
+import OutlineInput from "./OutlineInput";
 import PButton from "../PButton";
-import { sendLetter } from "../../../../api/submitHandler";
+import { sendLetter } from "api/submitHandler";
 
 const ContactUsForm = ({ color }) => {
   let name = useRef();
@@ -110,26 +110,32 @@ const ContactUsForm = ({ color }) => {
               ></OutlineInput>
             </div>
           </div>
-        </div> 
+        </div>
         <PButton
           name={sendBtn}
-          handler={(e) => {
+          handler={async (e) => {
             e.preventDefault();
 
             validateState();
 
             if (validateState()) {
-              sendLetter({
+              setsendBtn("Sending letter....");
+
+              let response = await sendLetter({
                 name: name.current.value,
                 phoneno: phoneno.current.value,
                 textenquire: textenquire.current.value,
               });
 
-              name.current.value = "";
-              phoneno.current.value = "";
-              textenquire.current.value = "";
+              if (response) {
+                name.current.value = "";
+                phoneno.current.value = "";
+                textenquire.current.value = "";
 
-              setsendBtn("Thank You, I'll contact you later");
+                setsendBtn("Thank you, I'll contact back later");
+              } else {
+                setsendBtn("Sorry letter failed to send, try email");
+              }
 
               setTimeout(() => {
                 setsendBtn("SEND");

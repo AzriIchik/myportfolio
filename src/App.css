@@ -3,6 +3,11 @@
     position: relative;
 }
 
+.spinner-border{
+    width:100px !important;
+    height:100px  !important;
+}
+
 .alink{
     text-decoration: none;
     color: inherit;

@@ -3,7 +3,9 @@ import { Carousel, Modal } from "react-bootstrap";
 import "./projectbox.css";
 
 const ProjectBox = (props) => {
-  let { img_url, name, desc, tech_stack, link } = props.data;
+  let { img_url1, img_url2, img_url3, name, desc, tech_stack, link } =
+    props.data;
+    
   const [modalShow, setmodalShow] = React.useState(false);
 
   let projectLink = (link) => {
@@ -14,28 +16,38 @@ const ProjectBox = (props) => {
     <>
       <Modal show={modalShow} fullscreen={true}>
         <Modal.Body>
-          <div className="container-fluid p-2 p-md-5"  data-aos="fade-up" data-aos-delay="300">
+          <div
+            className="container-fluid p-2 p-md-5"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <div className="container">
               <Carousel controls={false} touch={true}>
                 <Carousel.Item>
                   <div
                     className="carousel-project-item mx-auto"
-                    style={{ backgroundImage: `url(${img_url})` }}
-                    onClick={()=>{projectLink(img_url)}}
+                    style={{ backgroundImage: `url(${img_url1})` }}
+                    onClick={() => {
+                      projectLink(img_url1);
+                    }}
                   ></div>
                 </Carousel.Item>
                 <Carousel.Item>
                   <div
                     className="carousel-project-item mx-auto"
-                    style={{ backgroundImage: `url(${img_url})` }}
-                    onClick={()=>{projectLink(img_url)}}
+                    style={{ backgroundImage: `url(${img_url2})` }}
+                    onClick={() => {
+                      projectLink(img_url2);
+                    }}
                   ></div>
                 </Carousel.Item>
                 <Carousel.Item>
                   <div
                     className="carousel-project-item mx-auto"
-                    style={{ backgroundImage: `url(${img_url})` }}
-                    onClick={()=>{projectLink(img_url)}}
+                    style={{ backgroundImage: `url(${img_url3})` }}
+                    onClick={() => {
+                      projectLink(img_url3);
+                    }}
                   ></div>
                 </Carousel.Item>
               </Carousel>
@@ -51,7 +63,7 @@ const ProjectBox = (props) => {
                 return (
                   <div
                     className="bd-highlight me-2 project__tech-stack"
-                    style={{ width: "fit-content"}}
+                    style={{ width: "fit-content" }}
                   >
                     {data}
                   </div>
@@ -72,7 +84,7 @@ const ProjectBox = (props) => {
             <button
               type="button"
               className="btn btn-danger"
-              style={{ position: "relative"}}
+              style={{ position: "relative" }}
               onClick={() => {
                 setmodalShow(false);
               }}
@@ -92,7 +104,7 @@ const ProjectBox = (props) => {
         <div className="col-lg-4 p-0">
           <div
             className="project__data"
-            style={{ backgroundImage: `url(${img_url})` }}
+            style={{ backgroundImage: `url(${img_url1})` }}
           ></div>
         </div>
         <div className="col-lg-8 p-3 p-md-5 position-relative">
