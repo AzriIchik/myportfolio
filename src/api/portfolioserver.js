@@ -132,14 +132,17 @@ export let updateEducation = async (data) => {
 };
 
 export let updateSkill = async (data) => {
-  let { id, name, proficiency } = data;
+  let { id, name, proficiency, category } = data;
 
   data = {
     skill_id: id,
     skill_name: name,
     skill_proficiency: proficiency,
+    skill_category_id: category,
     authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
   };
+
+  console.log(data);
 
   let sendData = new FormData();
   sendData.append("data", JSON.stringify(data));
@@ -168,6 +171,7 @@ export let updateProfile = async (data) => {
     address,
     aboutme,
     aboutresume,
+    resumeurl,
   } = data;
 
   data = {
@@ -179,6 +183,7 @@ export let updateProfile = async (data) => {
     myprofile_address: address,
     myprofile_aboutme: aboutme,
     myprofile_aboutresume: aboutresume,
+    myprofile_resumeurl: resumeurl,
     authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
   };
 
@@ -380,12 +385,13 @@ export let addEducation = async (data) => {
 };
 
 export let addSkill = async (data) => {
-  let { id, name, proficiency } = data;
+  let { id, name, proficiency, category } = data;
 
   data = {
     skill_id: id,
     skill_name: name,
     skill_proficiency: proficiency,
+    skill_category_id: category,
     authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
   };
 

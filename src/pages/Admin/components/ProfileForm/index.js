@@ -90,6 +90,17 @@ const ProfileForm = () => {
                 placeholder="EMAIL"
                 style={{ color: "white" }}
               />
+
+              <input
+                type="text"
+                className="form-control mb-3"
+                name="resumeurl"
+                onChange={handleInputChange}
+                value={appData.profileformdata.resumeurl}
+                placeholder="RESUME URL"
+                style={{ color: "white" }}
+              />
+
               <textarea
                 className="form-control mb-3"
                 style={{ height: "15vh" }}

@@ -13,6 +13,7 @@ let appdata = {
     address: "",
     aboutme: "",
     aboutresume: "",
+    resumeurl:""
   },
   employmentdata: [],
   educationdata: [],
@@ -28,6 +29,7 @@ let appdata = {
     address: "",
     aboutme: "",
     aboutresume: "",
+    resumeurl:""
   },
   projectformdata: {
     id: 0,
@@ -61,6 +63,7 @@ let appdata = {
     id: 0,
     name: "",
     proficiency: 1,
+    category: 1,
   },
 };
 
@@ -109,6 +112,7 @@ let reducer = (state, action) => {
           myprofile_name,
           myprofile_phoneno,
           myprofile_title,
+          myprofile_resumeurl
         } = data;
 
         newProfileData = {
@@ -121,6 +125,7 @@ let reducer = (state, action) => {
           address: myprofile_address,
           aboutme: myprofile_aboutme,
           aboutresume: myprofile_aboutresume,
+          resumeurl: myprofile_resumeurl
         };
       });
 
@@ -228,12 +233,13 @@ let reducer = (state, action) => {
       let newSkillData = [];
 
       action.payload.forEach((data) => {
-        let { skill_id, skill_name, skill_proficiency } = data;
+        let { skill_id, skill_name, skill_proficiency, skill_category_id } = data;
 
         newSkillData.push({
           id: skill_id,
           name: skill_name,
           proficiency: skill_proficiency,
+          category: skill_category_id
         });
       });
 
@@ -307,6 +313,7 @@ let reducer = (state, action) => {
           id: action.payload.id,
           name: action.payload.name,
           proficiency: action.payload.proficiency,
+          category: action.payload.category
         },
       };
 
@@ -327,6 +334,7 @@ let reducer = (state, action) => {
           address: action.payload.address,
           aboutme: action.payload.aboutme,
           aboutresume: action.payload.aboutresume,
+          resumeurl: action.payload.resumeurl 
         },
       };
       return newState;

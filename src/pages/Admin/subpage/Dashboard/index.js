@@ -27,12 +27,27 @@ const Dashboard = () => {
     }
   };
 
+  let setCategory = (category) => {
+    switch (category) {
+      case 1:
+        return <span>Programming Language</span>;
+      case 2:
+        return <span>Front-End Framework</span>;
+      case 3:
+        return <span>Back-end Framework</span>;
+      case 4:
+        return <span>Tools</span>;
+      default:
+        return <span>No Category</span>;
+    }
+  }
+
   return (
     <div className="container main-container">
       <div className="row">
         <div className="col">
           <p className="mt-5 mb-5" style={{ color: "#2292a4" }}>
-            Welcome back, <b>Admin</b>
+            Welcome back, <b>{appData.profiledata.name}</b>
           </p>
         </div>
       </div>
@@ -247,11 +262,12 @@ const Dashboard = () => {
                 <tr>
                   <th scope="col">SKILL NAME</th>
                   <th scope="col">PROFECIENCY</th>
+                  <th scope="col">CATEGORY</th>
                 </tr>
               </thead>
               <tbody>
                 {appData.skilldata.map((data, i) => {
-                  let { id, name, proficiency } = data;
+                  let { id, name, proficiency, category } = data;
                   return (
                     <tr
                       key={"skill" + i}
@@ -268,6 +284,7 @@ const Dashboard = () => {
                     >
                       <th>{name}</th>
                       <th>{setProficiency(proficiency)}</th>
+                      <th>{setCategory(category)}</th>
                     </tr>
                   );
                 })}

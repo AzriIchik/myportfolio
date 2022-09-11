@@ -1,37 +1,44 @@
-.databox__container{
-    position: relative;
-    padding: 0px 30px;
-    padding-bottom: 45px;
-    border-left: 3px solid var(--primary-clr);
+.databox__container {
+  position: relative;
+  width: 80%;
+  padding: 0px 30px;
+  padding-bottom: 45px;
+  border-left: 3px solid var(--primary-clr);
 }
 
-.databox__container .ind{
-    width: 15px;
-    height: 15px;
-    border: 3px solid var(--primary-clr);
-    border-radius: 15px;
-    position: absolute;
-    top:0;
-    left:-9px;
-    content: "";
-    background-color: white;
+.databox__container .ind {
+  width: 15px;
+  height: 15px;
+  border: 3px solid var(--primary-clr);
+  border-radius: 15px;
+  position: absolute;
+  top: 0;
+  left: -9px;
+  content: "";
+  background-color: white;
 }
 
-.databox__container a{
-    text-decoration: none;
-    color: gray;
-    cursor: pointer;
+.databox__container a {
+  text-decoration: none;
+  color: gray;
+  cursor: pointer;
 }
 
-.databox__container .btninfo{
-    background-color: rgb(0,0,0,0);
-    border: none;
+.databox__container .btninfo {
+  background-color: rgb(0, 0, 0, 0);
+  border: none;
 }
 
-.databox__container .btninfo:hover{
-    color: var(--primary-clr);
+.databox__container .btninfo:hover {
+  color: var(--primary-clr);
 }
 
-.databox__container:last-child{
+.databox__container:last-child {
   padding-bottom: 0;
+}
+
+@media screen and (max-width: 750px) {
+  .databox__container {
+    width: 100%;
+  }
 }

@@ -66,6 +66,17 @@ const SkillForm = () => {
                 <option value="4">Good</option>
                 <option value="5">Very Good</option>
               </select>
+              <select
+                className="form-select"
+                name="category"
+                value={appData.skillformdata.category}
+                onChange={handleInputChange}
+              >
+                <option value="1">Programming Language</option>
+                <option value="2">Front-end Framework</option>
+                <option value="3">Back-end Framework</option>
+                <option value="4">Tools</option>
+              </select>
               <button
                 type="button"
                 className="btn btn-primary"

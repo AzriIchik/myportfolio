@@ -69,7 +69,7 @@ const Home = () => {
             icon={faDownload}
             name={"DOWNLOAD CV"}
             handler={() => {
-              window.open("cert_url", "_blank");
+              window.open(appData.profiledata.resumeurl, "_blank");
             }}
           ></PButton>
         </div>
@@ -107,9 +107,40 @@ const Home = () => {
           <h5 className="fw-bold my-5">T E C H &nbsp; S K I L L S</h5>
 
           <div className="container-fluid">
-            <div className="row row-cols-md-2 row-cols-1">
+            <h5 className="fw-bold">Programming</h5>
+            <div className="row row-cols-md-2 row-cols-1 mb-5">
               {appData.skilldata.map((data, index) => {
-                return <SkillBox key={"skills" + index} data={data}></SkillBox>;
+                if (data.category == 1)
+                  return (
+                    <SkillBox key={"skills" + index} data={data}></SkillBox>
+                  );
+              })}
+            </div>
+            <h5 className="fw-bold">Front-End Framework</h5>
+            <div className="row row-cols-md-2 row-cols-1 mb-5">
+              {appData.skilldata.map((data, index) => {
+                if (data.category == 2)
+                  return (
+                    <SkillBox key={"skills" + index} data={data}></SkillBox>
+                  );
+              })}
+            </div>
+            <h5 className="fw-bold">Back-End Framework</h5>
+            <div className="row row-cols-md-2 row-cols-1 mb-5">
+              {appData.skilldata.map((data, index) => {
+                if (data.category == 3)
+                  return (
+                    <SkillBox key={"skills" + index} data={data}></SkillBox>
+                  );
+              })}
+            </div>
+            <h5 className="fw-bold">Tools</h5>
+            <div className="row row-cols-md-2 row-cols-1 mb-5">
+              {appData.skilldata.map((data, index) => {
+                if (data.category == 4)
+                  return (
+                    <SkillBox key={"skills" + index} data={data}></SkillBox>
+                  );
               })}
             </div>
           </div>
