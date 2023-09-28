@@ -50,6 +50,7 @@ function App() {
       type: appReducer.action.SET_SKILL,
       payload: skillData,
     });
+
     setshowSpinner(false);
   };
 

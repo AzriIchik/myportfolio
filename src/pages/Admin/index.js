@@ -13,7 +13,7 @@ import Projects from "./subpage/Projects";
 import Profile from "./subpage/Profile";
 import Login from "./subpage/Login";
 import { AppContext } from "appdata/appcontext";
-import { checkLogin } from "api/portfolioserver";
+import { loginUser } from "api/portfolioserver";
 
 function Admin() {
   const { appData, appDispatch, appAction } = useContext(AppContext);
@@ -34,7 +34,8 @@ function Admin() {
   };
 
   let initLogin = async () => {
-    let authToken = await checkLogin();
+    let authToken = await loginUser();
+    console.log("run")
     if (authToken) {
       appDispatch({
         type: appAction.SET_LOG_IN,
@@ -43,6 +44,7 @@ function Admin() {
         },
       });
     } else {
+      
       sessionStorage.removeItem("authkey-azriperisiben.me");
     }
   };
@@ -93,7 +95,7 @@ const NavAdmin = ({ showPage, setshowPage }) => {
   return (
     <nav className="navbar navbar-expand-xl p-0 shadow">
       <div className="container h-100">
-        <a className="navbar-brand" href="index.html">
+        <a className="navbar-brand" href="admin">
           <h1 className="tm-site-title mb-0">MY PORTFOLIO</h1>
         </a>
         <button
@@ -157,6 +159,8 @@ const NavAdmin = ({ showPage, setshowPage }) => {
                 className="nav-link"
                 onClick={() => {
                   sessionStorage.removeItem("authkey-azriperisiben.me");
+
+                  console.log("Remove");
 
                   appDispatch({
                     type: appAction.SET_LOG_IN,

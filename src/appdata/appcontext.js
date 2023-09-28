@@ -101,6 +101,8 @@ let reducer = (state, action) => {
     case SET_PROFILE:
       let newProfileData = [];
 
+      if(action.payload == undefined) return state
+
       action.payload.forEach((data) => {
         let {
           myprofile_aboutme,
@@ -233,13 +235,13 @@ let reducer = (state, action) => {
       let newSkillData = [];
 
       action.payload.forEach((data) => {
-        let { skill_id, skill_name, skill_proficiency, skill_category_id } = data;
+        let { skill_id, skill_name, skill_proficiency, skill_category } = data;
 
         newSkillData.push({
           id: skill_id,
           name: skill_name,
           proficiency: skill_proficiency,
-          category: skill_category_id
+          category: skill_category
         });
       });
 

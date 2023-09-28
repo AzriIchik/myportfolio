@@ -25,7 +25,7 @@ const Home = () => {
           <div className="section1__content px-6 d-flex" id="aboutme">
             <div className="bd-highlight">
               <img
-                src={appData.profiledata.imgurl}
+                src={`https://${appData.profiledata.imgurl}`}
                 alt="dp"
                 className="profile-photo"
               ></img>

@@ -10,19 +10,19 @@ const SkillBox = (props) => {
     switch (proficiency) {
       case 1:
         progressBar = { width: "20%" };
-        return <span>Really Poor: 20%</span>;
+        return <span className="fw-bold">Really Poor: 20%</span>;
       case 2:
         progressBar = { width: "40%" };
-        return <span>Poor: 40%</span>;
+        return <span className="fw-bold">Poor: 40%</span>;
       case 3:
         progressBar = { width: "50%" };
-        return <span>Average: 50%</span>;
+        return <span className="fw-bold">Average: 50%</span>;
       case 4:
         progressBar = { width: "80%" };
-        return <span>Good: 80%</span>;
+        return <span className="fw-bold">Good: 80%</span>;
       case 5:
         progressBar = { width: "100%" };
-        return <span>Very Good: 100%</span>;
+        return <span className="fw-bold">Very Good: 100%</span>;
     }
   };
 

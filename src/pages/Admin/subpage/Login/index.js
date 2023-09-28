@@ -94,7 +94,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <span className={showError ? "d-inline" : "d-none"} style={{color:"red"}} >Please choose a username.</span>
+              <span className={showError ? "d-inline" : "d-none"} style={{color:"red"}} >Insert a proper login credentials</span>
 
               <div className="text-center mt-4">
                 <button

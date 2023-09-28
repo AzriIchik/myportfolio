@@ -1,17 +1,43 @@
-let axios = require("axios");
-let config = require("config.json");
+import axios from "axios";
 
-let baseUrl = config.server_url;
+const qs = require("qs");
+//const axios = require("axios");
+const config = require("config.json");
+const baseUrl = config.server_url;
+
+axios.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  (error) => {}
+);
+
+axios.interceptors.request.use(
+  (config) => {
+    const methodAuthCheck = ["post", "put", "delete"];
+
+    //skip for login
+    if (baseUrl + "login" === config.url) return config;
+
+    if (methodAuthCheck.includes(config.method)) {
+      config.headers.Authorization = `token ${sessionStorage.getItem(
+        "authkey-azriperisiben.me"
+      )}`;
+    }
+
+    return config;
+  },
+  (error) => {}
+);
 
 //READ
 export let fetchProfile = async () => {
-  let response = await axios(baseUrl + "fetch/profile");
+  let response = await axios(baseUrl + "profile");
   return response.data;
 };
 
 export let fetchProject = async () => {
-  let response = await axios(baseUrl + "fetch/project");
-
+  let response = await axios(baseUrl + "project");
   let parsedData = [];
 
   try {
@@ -29,45 +55,43 @@ export let fetchProject = async () => {
 };
 
 export let fetchEmployment = async () => {
-  let response = await axios(baseUrl + "fetch/employment");
+  let response = await axios(baseUrl + "employment");
   return response.data;
 };
 
 export let fetchEducation = async () => {
-  let response = await axios(baseUrl + "fetch/education");
+  let response = await axios(baseUrl + "education");
   return response.data;
 };
 
 export let fetchSkill = async () => {
-  let response = await axios(baseUrl + "fetch/skill");
+  let response = await axios(baseUrl + "skill");
   return response.data;
 };
 
 //UPDATE
 export let updateProject = async (data) => {
-  let { id, img_url, name, desc, tech_stack, link } = data;
+  let { id, name, desc, tech_stack, link } = data;
 
-  data = {
-    project_id: id,
-    project_imgurl: img_url,
-    project_name: name,
-    project_desc: desc,
-    project_techstack: JSON.stringify(tech_stack),
-    project_link: link,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
-
-  let response = await axios({
-    method: "post",
-    url: baseUrl + "update/project",
-    data: sendData,
+  data = qs.stringify({
+    name,
+    desc,
+    techstack: JSON.stringify(tech_stack),
+    link,
   });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  let response = await axios({
+    method: "put",
+    maxBodyLength: Infinity,
+    url: baseUrl + `project/${id}`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data,
+  });
+
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
@@ -75,29 +99,26 @@ export let updateEmployment = async (data) => {
   let { cert_url, desc, end_date, id, more_desc, place, position, start_date } =
     data;
 
-  data = {
-    employment_certurl: cert_url,
-    employment_desc: desc,
-    employment_id: id,
-    employment_place: place,
-    employment_position: position,
-    employment_xtradesc: more_desc,
-    employment_startdate: start_date,
-    employment_enddate: end_date,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
-
-  let response = await axios({
-    method: "post",
-    url: baseUrl + "update/employment",
-    data: sendData,
+  data = qs.stringify({
+    certurl: cert_url,
+    desc,
+    place,
+    position,
+    xtradesc: more_desc,
+    startdate: start_date,
+    enddate: end_date,
   });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  let response = await axios({
+    method: "put",
+    url: baseUrl + `employment/${id}`,
+    data,
+  });
+
+  console.log(response);
+
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
@@ -105,65 +126,54 @@ export let updateEducation = async (data) => {
   let { cert_url, desc, end_date, id, more_desc, place, position, start_date } =
     data;
 
-  data = {
-    education_certurl: cert_url,
-    education_desc: desc,
-    education_id: id,
-    education_place: place,
-    education_position: position,
-    education_xtradesc: more_desc,
-    education_startdate: start_date,
-    education_enddate: end_date,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
-
-  let response = await axios({
-    method: "post",
-    url: baseUrl + "update/education",
-    data: sendData,
+  data = qs.stringify({
+    certurl: cert_url,
+    desc,
+    place,
+    position,
+    xtradesc: more_desc,
+    startdate: start_date,
+    enddate: end_date,
   });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  let response = await axios({
+    method: "put",
+    url: baseUrl + `education/${id}`,
+    data,
+  });
+
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 export let updateSkill = async (data) => {
   let { id, name, proficiency, category } = data;
 
-  data = {
-    skill_id: id,
-    skill_name: name,
-    skill_proficiency: proficiency,
-    skill_category_id: category,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  console.log(data);
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
-
-  let response = await axios({
-    method: "post",
-    url: baseUrl + "update/skill",
-    data: sendData,
+  data = qs.stringify({
+    name,
+    proficiency,
+    category,
   });
 
-  console.log(response);
+  let response = await axios({
+    method: "put",
+    maxBodyLength: Infinity,
+    url: `${baseUrl}skill/${id}`,
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    data,
+  });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 export let updateProfile = async (data) => {
   let {
     name,
-    imgurl,
     title,
     age,
     phoneno,
@@ -174,125 +184,72 @@ export let updateProfile = async (data) => {
     resumeurl,
   } = data;
 
-  data = {
-    myprofile_name: name,
-    myprofile_title: title,
-    myprofile_age: age,
-    myprofile_phoneno: phoneno,
-    myprofile_email: email,
-    myprofile_address: address,
-    myprofile_aboutme: aboutme,
-    myprofile_aboutresume: aboutresume,
-    myprofile_resumeurl: resumeurl,
+  data = qs.stringify({
+    name,
+    aboutme,
+    aboutresume,
+    address,
+    age,
+    email,
+    phoneno,
+    title,
+    resumeurl,
     authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
-
-  let response = await axios({
-    method: "post",
-    url: baseUrl + "update/profile",
-    data: sendData,
   });
 
-  console.log(response);
+  let response = await axios({
+    method: "put",
+    url: baseUrl + "profile",
+    data,
+  });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 //DELETE
 export let deleteProject = async (id) => {
-  let sendData = new FormData();
-  sendData.append(
-    "data",
-    JSON.stringify({
-      project_id: id,
-      authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-    })
-  );
-
   let response = await axios({
-    method: "post",
-    url: baseUrl + "delete/project",
-    data: sendData,
+    method: "delete",
+    url: `${baseUrl}project/${id}`,
   });
 
-  console.log(response);
-
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 export let deleteEmployment = async (id) => {
-  let sendData = new FormData();
-  sendData.append(
-    "data",
-    JSON.stringify({
-      employment_id: id,
-      authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-    })
-  );
-
   let response = await axios({
-    method: "post",
-    url: baseUrl + "delete/employment",
-    data: sendData,
+    method: "delete",
+    url: baseUrl + `employment/${id}`,
   });
 
-  console.log(response);
-
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 export let deleteEducation = async (id) => {
-  let sendData = new FormData();
-  sendData.append(
-    "data",
-    JSON.stringify({
-      education_id: id,
-      authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-    })
-  );
-
   let response = await axios({
-    method: "post",
-    url: baseUrl + "delete/education",
-    data: sendData,
+    method: "delete",
+    url: baseUrl + `education/${id}`,
   });
 
-  console.log(response);
-
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 export let deleteSkill = async (id) => {
-  let sendData = new FormData();
-  sendData.append(
-    "data",
-    JSON.stringify({
-      skill_id: id,
-      authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-    })
-  );
-
   let response = await axios({
-    method: "post",
-    url: baseUrl + "delete/skill",
-    data: sendData,
+    method: "delete",
+    url: `${baseUrl}skill/${id}`,
   });
 
-  console.log(response);
-
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
@@ -300,27 +257,30 @@ export let deleteSkill = async (id) => {
 export let addProject = async (data) => {
   let { name, desc, tech_stack, link } = data;
 
-  data = {
-    project_name: name,
-    project_desc: desc,
-    project_techstack: JSON.stringify(tech_stack),
-    project_link: link,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
+  let formData = new FormData();
+  formData.append("name", name);
+  formData.append("desc", desc);
+  formData.append("techstack", JSON.stringify(tech_stack));
+  formData.append("link", link);
+  formData.append(
+    "authtoken",
+    sessionStorage.getItem("authkey-azriperisiben.me")
+  );
 
   let response = await axios({
     method: "post",
-    url: baseUrl + "add/project",
-    data: sendData,
+    url: baseUrl + "project",
+    data: formData,
+    headers: {
+      Authorization: `Basic ${sessionStorage.getItem(
+        "authkey-azriperisiben.me"
+      )}`,
+      "Content-Type": "multipart/form-data",
+    },
   });
 
-  console.log(response);
-
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
@@ -328,28 +288,28 @@ export let addEmployment = async (data) => {
   let { cert_url, desc, end_date, more_desc, place, position, start_date } =
     data;
 
-  data = {
-    employment_certurl: cert_url,
-    employment_desc: desc,
-    employment_place: place,
-    employment_position: position,
-    employment_xtradesc: more_desc,
-    employment_startdate: start_date,
-    employment_enddate: end_date,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
+  let formData = new FormData();
+  formData.append("certurl", cert_url);
+  formData.append("desc", desc);
+  formData.append("place", place);
+  formData.append("position", position);
+  formData.append("xtradesc", more_desc);
+  formData.append("startdate", start_date);
+  formData.append("enddate", end_date);
 
   let response = await axios({
     method: "post",
-    url: baseUrl + "add/employment",
-    data: sendData,
+    headers: {
+      Authorization: `Basic ${sessionStorage.getItem(
+        "authkey-azriperisiben.me"
+      )}`,
+    },
+    url: baseUrl + "employment",
+    data: formData,
   });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
@@ -357,62 +317,50 @@ export let addEducation = async (data) => {
   let { cert_url, desc, end_date, more_desc, place, position, start_date } =
     data;
 
-  console.log(data);
-
-  data = {
-    education_certurl: cert_url,
-    education_desc: desc,
-    education_place: place,
-    education_position: position,
-    education_xtradesc: more_desc,
-    education_startdate: start_date,
-    education_enddate: end_date,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
   let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
+  sendData.append("certurl", cert_url);
+  sendData.append("desc", desc);
+  sendData.append("place", place);
+  sendData.append("position", position);
+  sendData.append("xtradesc", more_desc);
+  sendData.append("startdate", start_date);
+  sendData.append("enddate", end_date);
 
   let response = await axios({
     method: "post",
-    url: baseUrl + "add/education",
+    url: baseUrl + "education",
     data: sendData,
   });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 export let addSkill = async (data) => {
-  let { id, name, proficiency, category } = data;
+  let { name, proficiency, category } = data;
 
-  data = {
-    skill_id: id,
-    skill_name: name,
-    skill_proficiency: proficiency,
-    skill_category_id: category,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
-  let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
+  let formData = new FormData();
+  formData.append("name", name);
+  formData.append("proficiency", proficiency);
+  formData.append("category", category);
 
   let response = await axios({
     method: "post",
-    url: baseUrl + "add/skill",
-    data: sendData,
+    url: baseUrl + "skill",
+    data: formData,
   });
 
-  if (response.data.massage === "Approved") return 1;
-  if (response.data.massage === "invalid token") window.location.reload();
+  if (response.data.message === "approved") return 1;
+  if (response.data.message === "invalid token") window.location.reload();
   else return 0;
 };
 
 export let loginUser = async (data) => {
   data = {
-    myprofile_email: data.email,
-    myprofile_password: data.password,
+    myprofile_email: data ? data.email : " ",
+    myprofile_password: data ? data.password : " ",
+    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
   };
 
   let sendData = new FormData();
@@ -424,10 +372,14 @@ export let loginUser = async (data) => {
     data: sendData,
   });
 
-  sessionStorage.setItem("authkey-azriperisiben.me", response.data.authtoken);
-
-  if (response.data.massage === "Approved") return 1;
-  else return 0;
+  if (response.data.message === "approved") {
+    sessionStorage.setItem("authkey-azriperisiben.me", response.data.authtoken);
+    return 1;
+  } else if (response.data.message === "valid token") {
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
 export let checkLogin = async () => {
@@ -440,49 +392,50 @@ export let checkLogin = async () => {
 
   let response = await axios({
     method: "post",
-    url: baseUrl + "check/login",
+    url: baseUrl + "",
     data: sendData,
   });
 
-  console.log(response);
-
-  if (response.data.massage === "valid token") return 1;
+  if (response.data.message === "valid token") return 1;
   else return 0;
 };
 
 // THIS PART WILL NEED REFACTOR TO SUPPORT MORE IMAGE INSTEAD OF STATIC 3
-export let addProjectImage = async (projid, id, data) => {
+export let addProjectImage = async (projid, imgid, imgfile) => {
   let sendData = new FormData();
-  sendData.append("imageFiles", data);
+  sendData.append("imageFiles", imgfile);
   sendData.append("projid", projid);
-  sendData.append("id", id);
 
   let response = await axios({
     method: "post",
-    url: baseUrl + "add/img",
+    url: baseUrl + `projectimg/${imgid}`,
     data: sendData,
   });
 
-  if (response.data.massage === "Approved") return 1;
+  if (response.data.message === "approved") return 1;
   else return 0;
 };
 
-export let deleteProjectImage = async (projid, id) => {
-  let data = {
-    project_id: projid,
-    img_id: id,
-    authtoken: sessionStorage.getItem("authkey-azriperisiben.me"),
-  };
-
+export let addProfileImage = async (imgfile) => {
   let sendData = new FormData();
-  sendData.append("data", JSON.stringify(data));
+  sendData.append("imageFiles", imgfile);
 
   let response = await axios({
     method: "post",
-    url: baseUrl + "delete/img",
+    url: baseUrl + `profileimg`,
     data: sendData,
   });
 
-  if (response.data.massage === "Approved") return 1;
+  if (response.data.message === "approved") return 1;
+  else return 0;
+};
+
+export let deleteProjectImage = async (id, imgid) => {
+  let response = await axios({
+    method: "delete",
+    url: baseUrl + `projectimg/${id}/${imgid}`,
+  });
+
+  if (response.data.message === "approved") return 1;
   else return 0;
 };

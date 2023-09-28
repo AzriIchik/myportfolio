@@ -1,5 +1,5 @@
 {
-    "server_url":"https://server.azriperisiben.me/api/",
+    "server_url":"http://localhost/portfolioserver/api/",
     "username": "azri"
 }
 

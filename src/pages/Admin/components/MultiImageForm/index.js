@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext } from "react";
 import { AppContext } from "appdata/appcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,33 +18,33 @@ const MultiImageForm = () => {
         <div className="col-md-4 p-0">
           {appData.projectformdata.img_url1 ? (
             <FilledImageInput
-              url={appData.projectformdata.img_url1}
-              id={1}
+              url={`https://${appData.projectformdata.img_url1}`}
+              imgid={1}
             ></FilledImageInput>
           ) : (
-            <EmptyImageInput id={1}></EmptyImageInput>
+            <EmptyImageInput imgid={1}></EmptyImageInput>
           )}
         </div>
 
         <div className="col-md-4 p-0">
           {appData.projectformdata.img_url2 ? (
             <FilledImageInput
-              url={appData.projectformdata.img_url2}
-              id={2}
+              url={`https://${appData.projectformdata.img_url2}`}
+              imgid={2}
             ></FilledImageInput>
           ) : (
-            <EmptyImageInput id={2}></EmptyImageInput>
+            <EmptyImageInput imgid={2}></EmptyImageInput>
           )}
         </div>
 
         <div className="col-md-4 p-0">
           {appData.projectformdata.img_url3 ? (
             <FilledImageInput
-              url={appData.projectformdata.img_url3}
-              id={3}
+              url={`https://${appData.projectformdata.img_url3}`}
+              imgid={3}
             ></FilledImageInput>
           ) : (
-            <EmptyImageInput id={3}></EmptyImageInput>
+            <EmptyImageInput imgid={3}></EmptyImageInput>
           )}
         </div>
       </div>
@@ -52,14 +52,14 @@ const MultiImageForm = () => {
   );
 };
 
-const FilledImageInput = ({ url, id }) => {
+const FilledImageInput = ({ url, imgid }) => {
   const { appData, appDispatch, appAction } = useContext(AppContext);
 
   return (
     <div
       className="form-project-item position-relative"
       style={{
-        backgroundImage: `url(${url})`,
+        backgroundImage: `url("${url}")`,
       }}
     >
       <button
@@ -74,7 +74,7 @@ const FilledImageInput = ({ url, id }) => {
             e.preventDefault();
             let response = await deleteProjectImage(
               appData.projectformdata.id,
-              id
+              imgid
             );
 
             if (response) {
@@ -86,7 +86,6 @@ const FilledImageInput = ({ url, id }) => {
             } else {
               console.log("fail?");
             }
-
           }}
         />
       </button>
@@ -94,7 +93,7 @@ const FilledImageInput = ({ url, id }) => {
   );
 };
 
-const EmptyImageInput = ({ id }) => {
+const EmptyImageInput = ({ imgid }) => {
   const { appData, appDispatch, appAction } = useContext(AppContext);
 
   return (
@@ -110,7 +109,7 @@ const EmptyImageInput = ({ id }) => {
             icon={faSquarePlus}
             onClick={(e) => {
               e.preventDefault();
-              let fileInput = document.getElementById(`imginput${id}`);
+              let fileInput = document.getElementById(`imginput${imgid}`);
               fileInput.click();
             }}
           />
@@ -118,13 +117,13 @@ const EmptyImageInput = ({ id }) => {
       </div>
       <input
         type="file"
-        id={`imginput${id}`}
+        id={`imginput${imgid}`}
         style={{ height: "0px" }}
         onChange={async () => {
-          let fileInput = document.getElementById(`imginput${id}`);
+          let fileInput = document.getElementById(`imginput${imgid}`);
           let response = await addProjectImage(
             appData.projectformdata.id,
-            id,
+            imgid,
             fileInput.files[0]
           );
 

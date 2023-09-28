@@ -4,6 +4,7 @@ import { AppContext } from "appdata/appcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProfileForm from "pages/Admin/components/ProfileForm";
 import { faPen, faPenSquare } from "@fortawesome/free-solid-svg-icons";
+import { addProfileImage, fetchProfile } from "api/portfolioserver";
 
 const Profile = () => {
   const { appData, appDispatch, appAction } = useContext(AppContext);
@@ -14,7 +15,6 @@ const Profile = () => {
         <div className="col-12 tm-block-col" style={{ position: "relative" }}>
           <div style={{ position: "absolute", right: "50px", top: "25px" }}>
             <h2
-              id="addEducation"
               className="tm-block-title add-btn"
               data-bs-toggle="modal"
               data-bs-target="#modalProfileForm"
@@ -43,22 +43,43 @@ const Profile = () => {
                 <div className="col-auto mx-auto mx-md-0 position-relative">
                   <img
                     className="mx-auto"
-                    src={appData.profiledata.imgurl}
+                    src={`https://${appData.profiledata.imgurl}`}
                     style={{ width: "250px" }}
                   />
                   <button
                     className="btn position-absolute p-0"
-                    style={{ top: 0, right:"15px" }}
+                    style={{ top: 0, right: "15px" }}
+                    onClick={(e) => {
+                      let fileInput =
+                        document.getElementById("profileimginput");
+                      fileInput.click();
+                    }}
                   >
                     <FontAwesomeIcon
                       className="ms-1"
                       style={{ color: "red", fontSize: "2rem" }}
                       icon={faPenSquare}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
                     />
                   </button>
+                  <input
+                    type="file"
+                    id={"profileimginput"}
+                    style={{ height: "0px", display: "none" }}
+                    onChange={async () => {
+                      let fileInput =
+                        document.getElementById("profileimginput");
+                      let response = await addProfileImage(fileInput.files[0]);
+                      if (response) {
+                        let profileData = await fetchProfile();
+                        await appDispatch({
+                          type: appAction.SET_PROFILE,
+                          payload: profileData,
+                        });
+                      } else {
+                        console.log("fail?");
+                      }
+                    }}
+                  ></input>
                 </div>
                 <div className="col-md-6">
                   <div
