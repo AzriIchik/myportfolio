@@ -28,7 +28,7 @@ const ProjectBox = (props) => {
                     className="carousel-project-item mx-auto"
                     style={{ backgroundImage: `url("https://${img_url1}")` }}
                     onClick={() => {
-                      projectLink(img_url1);
+                      projectLink(`https://${img_url1}`);
                     }}
                   ></div>
                 </Carousel.Item>
@@ -37,7 +37,7 @@ const ProjectBox = (props) => {
                     className="carousel-project-item mx-auto"
                     style={{ backgroundImage: `url("https://${img_url2}")` }}
                     onClick={() => {
-                      projectLink(img_url2);
+                      projectLink(`https://${img_url2}`);
                     }}
                   ></div>
                 </Carousel.Item>
@@ -46,7 +46,7 @@ const ProjectBox = (props) => {
                     className="carousel-project-item mx-auto"
                     style={{ backgroundImage: `url("https://${img_url3}")` }}
                     onClick={() => {
-                      projectLink(img_url3);
+                      projectLink(`https://${img_url3}`);
                     }}
                   ></div>
                 </Carousel.Item>

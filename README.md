@@ -8,3 +8,6 @@ Version 1.1
 
 Version 1.2
 - Sync with back-end
+
+Version 2
+- Done Initial version of my portfolio
