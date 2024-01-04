@@ -18,20 +18,6 @@ const DataBox = (props) => {
       <p className="font-small my-2"> {start_date || "year"} <b>---</b> {end_date || "year"} </p>
       <p className="fw-bold mb-1">{position}</p>
       <p className="mb-0"> {desc || "description"} </p>
-      <button
-        className="font-small fw-bold btninfo"
-        onClick={() => {
-          setviewDescription(!viewDescription);
-        }}
-      >
-        {viewDescription ? "Hide Info" : "More Info"} 
-      </button>
-      <Collapse in={viewDescription}>
-        <div className="font-small">
-          {more_desc} <br/>
-          {cert_url ? <PButton icon={faDownload} name={"Download Cert"} handler={()=>{window.open(cert_url,'_blank')}}></PButton> : ""}
-        </div>
-      </Collapse>
     </div>
   );
 };
